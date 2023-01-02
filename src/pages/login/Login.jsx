@@ -4,13 +4,14 @@ import logoImg from "../../assets/roqya.jpg"
 import * as yup  from 'yup';
 import {Formik} from "formik";
 import { Loading, RegisterInput, Toast } from '../../components';
-import axios from 'axios';
+// import axios from 'axios';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPersonals } from '../../redux/personnel';
 import { getPatients } from '../../redux/patients';
 import { disconnectCenter } from '../../redux/connexion';
 import { alterShowMsg, setMessage } from '../../redux/message';
+import { axios } from '../../components/common/axios';
 
 function Login() {
 
@@ -64,7 +65,7 @@ function Login() {
     }
 
 
-  axios.post('http://localhost:3001/login/centre', data)
+  axios.post('login/centre', data)
   .then(resp =>{
     if(resp.data){
       setLoading(false)
