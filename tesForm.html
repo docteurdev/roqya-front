@@ -1,0 +1,33 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form  id="formMy" enctype="multipart/form-data">
+        <input class="input" type="file" name="image">
+        <input type="text" name="nom" id="">
+        <input type="text" name="prenom" id="">
+        <input type="submit" value="submit">
+    </form>
+
+    <script>
+        const input= document.querySelector('.input')
+        input.addEventListener('change', (e) => console.log(e.target.files[0]) )
+        const formMy = document.getElementById('formMy') 
+        formMy.addEventListener('submit', async (e) =>{
+          e.preventDefault()
+          let resp= await fetch('http://localhost:3001/api/roqya_ci/create_employe', {
+            method: 'POST',
+            body: new FormData(formMy),
+            headers:{'Content-Type': 'application-json'}
+          })
+           let resultat= await resp.json()
+           console.log(formMy);
+        }) 
+    </script>
+</body>
+</html> -->

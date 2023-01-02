@@ -1,0 +1,37 @@
+.rakis-search{
+    transition: width 0.5s ;
+}
+
+@media screen and (max-width: 1040px) {
+    .header-link{
+        font-size: 12px;
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+    
+    .patients-list{
+        width: 100%;
+        margin-top: 10px;
+    }
+    .user-bx{
+        width: 60%;
+    }
+    .main-container{
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .rdv-header{
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .rdv-header h2{
+        width: 100% !important;
+    }
+}
+
+
