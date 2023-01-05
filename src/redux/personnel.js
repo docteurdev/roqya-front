@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { axios } from "../components/common/axios";
+// import axios from "axios";
 
 const centreId = JSON.parse(localStorage.getItem('centreInfo'))
 

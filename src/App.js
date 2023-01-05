@@ -5,13 +5,14 @@ import { Provider } from "react-redux"
 import { store } from './redux/store';
 import RouteNav from './routes/routes';
 import { Route, Routes } from 'react-router-dom';
-import { Dash, Register } from './pages';
+import { AssisLogin, Dash, Register } from './pages';
 
 function App() {
   return (
     <Provider store={store} >
       <Routes>
         <Route path='/' element={<Login />} />
+        <Route path='/assisLogin' element={<AssisLogin />} />
         <Route path='/board' element={<Dash />} />
         <Route path='/create-center' element={<Register />} />
 

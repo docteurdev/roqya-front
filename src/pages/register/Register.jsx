@@ -7,8 +7,9 @@ import bgImg from "../../assets/caranimg.jpg";
 import * as yup  from 'yup';
 import {Formik} from "formik";
 import { Loading, RegisterInput } from '../../components';
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { axios } from '../../components/common/axios';
 
 function Register() {
 
@@ -49,17 +50,17 @@ function Register() {
   setLoading(true)
 
   let data = {
-       userName: userName,
-       password: password,
-       nom: nomCentre,
-      contact: contact,
-      localite: situationGeo,
-      siteWeb: siteweb,
-     email: email,
-     facebook: facebook,
-     youtube: youtube,
+        userName: userName,
+        password: password,
+        nom: nomCentre,
+        contact: contact,
+        localite: situationGeo,
+        siteWeb: siteweb,
+      email: email,
+      facebook: facebook,
+      youtube: youtube,
     }
-  axios.post('http://localhost:3001/api/roqya_ci/create_center', data)
+  axios.post('api/roqya_ci/create_center', data)
   .then(resp =>{
     if(resp.data){
       navigate('/')

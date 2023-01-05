@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -6,6 +6,7 @@ import { TextArea } from ".";
 import { alterupdatePatient, getPatients } from "../redux/patients";
 import Input from "./input/Input";
 import {Loading} from "./index"
+import { axios } from "./common/axios";
 
 function AddPatientForm({ closePop }) {
 
@@ -45,11 +46,11 @@ function AddPatientForm({ closePop }) {
         ante_medicaux: ant_medical
       }
     }
-    axios.post("http://localhost:3001/api/roqya_ci/carnet_create", data)
+    axios.post("api/roqya_ci/carnet_create", data)
          .then(res => {
-          console.log('====================================');
-          console.log(res.data);
-          console.log('====================================');
+          // console.log('====================================');
+          // console.log(res.data);
+          // console.log('====================================');
           if(res.data){
             setLoad(false)
             setTimeout(() =>{

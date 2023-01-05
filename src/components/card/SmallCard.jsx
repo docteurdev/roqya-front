@@ -8,7 +8,7 @@ function SmallCard({title}) {
                 <div className="card-body">
                     <h2 className="card-title">{title} </h2>
                     <div className="card-actions justify-start">
-                        <button className="btn ">Buy Now</button>
+                        <button className="btn ">12</button>
                     </div>
                 </div>
             </div>

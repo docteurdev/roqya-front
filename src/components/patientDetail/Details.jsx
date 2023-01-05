@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import {RiLockPasswordFill} from "react-icons/ri";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NewRdv from "../NewRdv";
 import Loading from "../common/Loading";
 import { IconContext } from "react-icons/lib";
@@ -103,19 +103,22 @@ const Rdv = ({ rdv }) => {
 function Details() {
 
   const [showInfo, setShowInfo] = useState(false);
-  const patient = useSelector(state => state.patients.patient);
-  // console.log(patient);
+  const patient = useSelector(state => state.patients.patientRdv);
+
+   console.log(patient);
   const [addRdv, setAddRdv] = useState(false);
   const [load, setload] = useState(false);
-
+  const [fiterConsul, setFilterConsul] = useState('');
   
+
+
   return (
     <div>
-      <div className="detail p-6">
+      <div className="detail h-[80vh]  p-6">
       {/* {load ? <Loading /> : null} */}
         <div className=" hearder ">
           <h2 className="flex flex-col md:flex-row w-full text-xl text-left mb-4 font-semibold flex items-center ">
-            <p className="text-[16px] mt-4" >Afficher les informations du patient</p>
+            <p className="text-[16px]" >Afficher les informations du patient</p>
             <div  className="flex w-full md:w-1/2  justify-between items-center">
             {!showInfo ? (
               <ChevronDownIcon
@@ -251,7 +254,7 @@ function Details() {
               <h2 className="text-xl text-left mt-2 font-semibold ">
                 Antécédent médical
               </h2>
-              <div className="bg-slate-100 w-full mt-2 h-48">
+              <div className="bg-slate-100 w-full mt-2 h-48 p-4">
               {patient?.ante_medicaux}
 
                 </div>{" "}
@@ -261,6 +264,8 @@ function Details() {
        {!showInfo? <div className="text-left mt-2 h-96 ">
           <h2 className="text-xl  font-semibold ">Liste de rendez-vous</h2>
           <input
+            // value={fiterConsul}
+            onChange={(e) => setFilterConsul(e.target.value)}
             type="search"
             placeholder="Rechercher consultation"
             className="input  w-full border-2 border-solid border-primary max-w-xs"
@@ -268,7 +273,14 @@ function Details() {
           <button className="mt-5 btn btn-primary ml-2" onClick={() => setAddRdv(!addRdv)} >{!addRdv ? "Nouvelle consultation" : "Voir consultations"}</button>
           {/* list rdv ISCompo */}
           {addRdv ? <NewRdv loading={setload} newrdv={setAddRdv} /> :
-            patient.rdvs ? patient.rdvs.map((rdv, index) => <Rdv key={index} rdv={rdv}  />) : null
+            patient ? patient.filter(rdvFiltered =>{
+              if(fiterConsul==""){
+                return rdvFiltered
+              }else if(rdvFiltered.date_consultation.toLowerCase().includes(fiterConsul.toLowerCase())){
+                return rdvFiltered
+              }
+            })
+            .map((rdv, index) => <Rdv key={index} rdv={rdv}  />) : null
           }
         </div>: null}
       </div>

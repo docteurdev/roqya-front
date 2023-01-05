@@ -2,13 +2,16 @@ import React from 'react'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react';
 import RegisterInput from './input/RegisterInput';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { disconnectAssitant, setAssitantConx } from '../redux/connexion';
+// import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { disconnectAssitant, disconnectCenter, setAssitantConx } from '../redux/connexion';
 import logo from '../assets/roqya.jpg'
 import Loading from './common/Loading';
 import { alterShowMsg, setMessage } from '../redux/message';
 import { hideMsg } from './common/context';
+import { axios } from './common/axios';
+import { useNavigate } from 'react-router-dom';
+import Toast from './Toast';
 
 
 function UserLogin({loadedDash}) {
@@ -16,11 +19,15 @@ function UserLogin({loadedDash}) {
 
     const [username, setUsername]= useState()
     const [password, setPassword]= useState();
-     const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const showMsg = useSelector(state => state.message.showMsg)
+
 
     const dispatch= useDispatch();
 
-    const centreInfo = JSON.parse(localStorage.getItem('centreInfo'))
+    const centreInfo = JSON.parse(localStorage.getItem('centreInfo'));
+    const navigate= useNavigate();
+
 
     const userLogin= (e) =>{
         setLoading(true)
@@ -31,21 +38,25 @@ function UserLogin({loadedDash}) {
             password: password
         }
 
-        axios.post("http://localhost:3001/login/personels",data)
+        axios.post("login/personels",data)
              .then(res =>{
                 if(res.data){
                   // console.log(res.data);
                     // dispatch(setAssitantConx(res.data.data));
 
+                    localStorage.setItem('rakyLogged',true)
                     let msg={status: 200, message:"Vous êtes connecté avec succèss"};
                     
                     dispatch(setMessage(msg))
                     dispatch(alterShowMsg(true))
 
                      setTimeout(() =>{
-                      dispatch(alterShowMsg(false))
+                     dispatch(alterShowMsg(false))
+                     dispatch(disconnectCenter(false))
                       
+                     navigate('/board')
                    }, 3000)
+
 
                    setTimeout(() =>{
                      dispatch(disconnectAssitant(false))
@@ -60,9 +71,12 @@ function UserLogin({loadedDash}) {
                 }
              })
              .catch(error =>{
-                // console.log(error.response.data);
-                let msg={status: 404, message:error.response.data}
-                dispatch(setMessage(msg))
+                // console.log(error.response);
+                if(error){
+
+                  let msg={status: 404, message:error.response.data}
+                  dispatch(setMessage(msg))
+                }
 
                 dispatch(alterShowMsg(true))
                      setTimeout(() =>{
@@ -80,6 +94,8 @@ function UserLogin({loadedDash}) {
   return (
     <div className='flex justify-center items-center absolute top-0 left-0 w-full h-screen bg-white-200 z-10 backdrop-blur-lg ' >
       {loading? <Loading/>: null}
+      {showMsg ? <Toast /> : null}
+
       <form onSubmit={userLogin}  className='md:w-4/12 w-full mx-8 flex flex-col justify-center p-16  h-96 bg-[#bdc3c7] shadow-gray-50 rounded-lg ' >
         
         <img src={logo} alt="roqya-logo" className='h-10 w-10 rounded-full mb-1' />

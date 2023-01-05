@@ -24,13 +24,19 @@ const patientsSlice = createSlice({
     initialState:{
         pats:[],
         patient:{},
+        patientRdv:[],
         updatePatient: null
 },
     reducers:{
         getPatient:(state, action) =>{
            state.patient= action.payload;
              
-        },  alterupdatePatient(state, {payload}){
+        },
+        setPatientRdv:(state, action) =>{
+            state.patientRdv= action.payload;
+              
+         }, 
+         alterupdatePatient(state, {payload}){
             state.updatePatient=payload
 
         }
@@ -50,5 +56,5 @@ const patientsSlice = createSlice({
         }
     }
 })
-export const {getPatient, alterupdatePatient} = patientsSlice.actions;
+export const {getPatient, alterupdatePatient, setPatientRdv,} = patientsSlice.actions;
 export default patientsSlice;

@@ -30,7 +30,7 @@ import { getPersonals } from "../../redux/personnel";
 import { getPatients } from "../../redux/patients";
 import { AddPersonelForm, Header, Loading, Toast } from "../../components";
 import UserLogin from "../../components/UserLogin";
-import { alterStatShon, disconnectAssitant, disconnectCenter } from "../../redux/connexion";
+import { alterStatShon, disconnectAssitant, disconnectCenter, setCenterConx } from "../../redux/connexion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons/lib";
 
@@ -81,15 +81,20 @@ function Dash() {
   const [showRakis, setshowRakis] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadedDash, setloadedDash] = useState(false);
+  const [filterRakis, setFilterRakis] = useState('');
+  
 
   const userInfos = JSON.parse(localStorage.getItem('userInfos'));
   const centreInfo = JSON.parse(localStorage.getItem('centreInfo'));
+  const rakyLogged = JSON.parse(localStorage.getItem('rakyLogged'));
   const loaction = useLocation()
   const navigate = useNavigate()
 
   if (!userInfos && !centreInfo) {
     navigate('/')
   }
+
+
   // console.log('----dash load == false-------');
   //  console.log(userInfos);
 
@@ -111,13 +116,14 @@ function Dash() {
       setLoading(false)
     }, 3000)
 
-    if (!loaction.state?.Employes.length) {
-      // setloadedDash(true)
-      dispatch(disconnectCenter(false))
+    // console.log("isCenterConx 111", centreInfo); 
+    
+    if (centreInfo?.Employes.length) {
+      dispatch(disconnectCenter(true))
     }
-    if (!userInfos) {
-      dispatch(disconnectAssitant(true))
-    }
+    // if (userInfos) {
+    //   dispatch(disconnectAssitant(true))
+    // }
 
 
     dispatch(getPersonals(loaction.state ? loaction.state.id : centreInfo.id));
@@ -139,12 +145,8 @@ function Dash() {
     <div className="min-h-full">
 
       {updatePatient ? <Loading /> : null}
-      {showMsg ? <Toast /> : null}
+      {/* {showMsg ? <Toast /> : null} */}
 
-      {isCenterConx ? <UserLogin loadedDash={setloadedDash} /> : null}
-      {isAssitConx ? <UserLogin loadedDash={setloadedDash} /> : null}
-
-      {/* <UserLogin loadedDash={setloadedDash} /> */}
       <input type="checkbox" id="my-modal" className="modal-toggle" />
       <div className="modal bg-white-100 backdrop-blur-sm">
         <div className="modal-box w-11/12 max-w-5xl ">
@@ -177,10 +179,23 @@ function Dash() {
         </div>
         <div className="main-container md:flex-row md:mx-auto flex flex-col pt-8   ">
           <div className="hidden user-bx md:block h-auto w-[250px] ">
-            <div className="h-auto p-md ml-1 bg-gray-800 text-white rounded-md border-solid border-2 px-4 w-full">
-              <div className="w-[45px] mt-2 h-[45px] overflow-hidden border-solid border-2 rounded-full">
-                <img src={user.imageUrl} alt="" />
-              </div>
+            <div className="h-auto ml-1 py-2 bg-gray-800 text-white rounded-md border-solid border-2 px-4 w-full">
+              
+               <div className=" flex items-center justify-between border-b-2 border-white">
+                <div className="w-[45px] h-[45px] overflow-hidden border-solid border-2 rounded-full">
+                  <img src={user.imageUrl} alt="" />
+                </div>
+                {userInfos ? 
+                <div className="flex items-center cursor-pointer hover:bg-white hover:text-gray-800 my-6 border-2 border-color-white rounded-md py-2 px-2">
+                <ArrowLeftOnRectangleIcon className="h-6 w-6" />
+                <p
+                  onClick={() => {
+                    localStorage.removeItem('userInfos')
+                    navigate('/assisLogin')
+                  }}
+                  className="ml-2 text-xs font-semibold cursor-pointer">Déconnexion</p>
+              </div> : null}
+               </div>
               <div className="flex items-center mt-4">
                 <UserIcon className="h-6 w-6" />
                 <p className="ml-2 text-xs font-semibold">{userInfos?.nom} {userInfos?.prenom} </p>
@@ -214,6 +229,7 @@ function Dash() {
                     className="w-[30px] p-1 h-[30px] text-white rounded-full cursor-pointer m-2"
                   />}
                  {showRakis? <input
+                  onChange={(e) =>setFilterRakis(e.target.value)}
                   type="search"
                   className="relative block w-full appearance-none rounded-none rounded-tr-full rounded-br-full border border-gray-300 px-3 py-1 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-none focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Le nom du Raki"
@@ -223,22 +239,18 @@ function Dash() {
               {showRakis ? <div className="w-full h-60 mt-2 bg-white  p-1 rounded-md ">
                 {/* local component */}
                 {
-                  personnels?.filter(raki => raki.typeEmploye === "raki")
-                    .map((personnel, index) => <RakisItem raki={personnel} key={index} />)
+                  personnels?.filter(raki => {
+                    if( filterRakis == ''){
+                      return raki
+                    }else if(raki.userName.toLowerCase().includes(filterRakis.toLowerCase())){
+                      return raki
+                    }
+                  }).map((personnel, index) => <RakisItem raki={personnel} key={index} />)
                 }
 
 
               </div> : null}
 
-              {userInfos ? <div className="flex items-center cursor-pointer hover:bg-white hover:text-gray-800 my-6 border-2 border-color-white rounded-md py-2">
-                <ArrowLeftOnRectangleIcon className="h-6 w-6" />
-                <p
-                  onClick={() => {
-                    localStorage.removeItem('userInfos')
-                    dispatch(disconnectAssitant(true))
-                  }}
-                  className="ml-2 text-xs font-semibold cursor-pointer">Déconnexion</p>
-              </div> : null}
             </div>
           </div>
 

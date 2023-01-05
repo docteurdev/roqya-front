@@ -1,12 +1,15 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { alterShowMsg, setMessage } from '../redux/message';
 import { getPatients } from '../redux/patients';
 import { emptyedArr, manageRem, manageSymp, manageVent } from '../redux/rdv';
+import { axios } from './common/axios';
 import Input from './input/Input'
 import TextArea from './input/TextArea';
+import Toast from './Toast';
 
 const CheckBOX = ({ value, title }) => {
 
@@ -76,6 +79,8 @@ function NewRdv({newrdv}) {
 
 
     const rakis = useSelector(state => state.personels);
+    const showMsg = useSelector(state => state.message.showMsg)
+
 
     const centerId= JSON.parse(localStorage.getItem('centreInfo'));
     const secretaire= JSON.parse(localStorage.getItem('userInfos'));
@@ -104,7 +109,7 @@ function NewRdv({newrdv}) {
         }
 
         console.log(data);
-        axios.post("http://localhost:3001/api/roqya_ci/rdv_create", data)
+        axios.post("/api/roqya_ci/rdv_create", data)
             .then(res => {
 
 
@@ -112,7 +117,15 @@ function NewRdv({newrdv}) {
                     setTimeout(() =>{
                         dispatch(getPatients(centerId.id))
 
+                        let msg={status: 200, message:"Vous avez ajouté un nouveau rendez-vous"};
+                    
+                        dispatch(setMessage(msg))
+
                     }, 2000)
+                    setTimeout(() =>{
+                        dispatch(alterShowMsg(false))
+                      }, 2100)
+
                     // loading(true)
                     newrdv(false)
                     dispatch(emptyedArr())
@@ -129,6 +142,8 @@ function NewRdv({newrdv}) {
 
     return (
         <div>
+        {showMsg ? <Toast /> : null}
+
             <>
                 <div className=" shadow sm:overflow-hidden sm:rounded-md">
                     
@@ -147,6 +162,7 @@ function NewRdv({newrdv}) {
                             <div className="col-span-6 sm:col-span-3">
                                 <h2 className='font-semibold' >Raki</h2>
                                 <select
+                                    
                                     onChange={(e) => setRaki(e.target.value)}
                                     className="select mt-1 select-accent w-full max-w-xs">
                                     <option disabled selected>Selectionner un raqki </option>

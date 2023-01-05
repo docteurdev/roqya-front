@@ -1,9 +1,10 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useState, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPersonals } from '../redux/personnel';
 import RegisterInput from './input/RegisterInput';
 import { Loading } from "./index"
+import { axios } from './common/axios';
 
 
 function AddPersonelForm() {
@@ -53,7 +54,7 @@ function AddPersonelForm() {
     // console.log(data);
     // console.log('====================================');
 
-    axios.post("http://localhost:3001/api/roqya_ci/create_employe", data)
+    axios.post("api/roqya_ci/create_employe", data)
       .then(res => {
 
         if (res.data) {

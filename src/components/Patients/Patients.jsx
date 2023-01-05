@@ -4,7 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { EyeIcon } from '@heroicons/react/24/outline';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPatient } from '../../redux/patients';
+import { getPatient, setPatientRdv } from '../../redux/patients';
 import Details from '../patientDetail/Details';
 
 
@@ -20,6 +20,8 @@ function Patients() {
     return <label
       onClick={() => {
         dispatch(getPatient(num))
+        dispatch(setPatientRdv(num.rdvs))
+        
         document.getElementById("patient-popup").click();
         //   console.log(num);
       }}
@@ -48,7 +50,7 @@ function Patients() {
 
       <input type="checkbox" id="patient-detail-modal" className="modal-toggle" />
       <div className="modal backdrop-blur-sm">
-        <div className="modal-box md:w-8/12 h-xl max-w-5xl h-auto">
+        <div className="modal-box md:w-10/12 h-xl max-w-5xl h-auto">
 
           <Details />
 

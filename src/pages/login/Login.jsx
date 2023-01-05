@@ -30,12 +30,12 @@ function Login() {
   const showMsg= useSelector(state => state.message.showMsg) 
 
 
-  useEffect(() => {
-      if(centerInfos) return navigate('/board')
+  // useEffect(() => {
+  //     if(centerInfos) return navigate('/assisLogin')
     
   
    
-  }, [centerInfos])
+  // }, [centerInfos])
   
 
    const navLink =(route) =>{
@@ -56,8 +56,8 @@ function Login() {
 
 
  
-  const register = (e ) =>{
-    setLoading(true);
+  const register = (e) =>{
+  setLoading(true);
   e.preventDefault();
   let data = {
        userName: userName,
@@ -81,7 +81,14 @@ function Login() {
      }, 3000)
 
       localStorage.setItem('centreInfo', JSON.stringify(resp.data.data))
-      navigate('/board', {state: resp.data.data});
+
+      if(resp.data.data.Employes.length > 0){
+        navigate('/assisLogin')
+
+      }else{
+
+        navigate('/board');
+      }
         setLoading(true);
 
       

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
  const connexionSlice = createSlice({
     name: 'connexionSlice',
     initialState:{
-        centerConx: true,
+        centerConx: false,
         assitantConx: false,
         statSHown: false,
     },
@@ -16,12 +16,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
         },
         disconnectCenter(state, {payload}){
-            
             state.centerConx = payload;
         },
         disconnectAssitant(state, {payload}){
             
             state.assitantConx = payload;
+            localStorage.removeItem('rakyLogged')
         },
         alterStatShon(state, {payload}){
            state.statSHown= !state.statSHown 
