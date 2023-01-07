@@ -83,7 +83,7 @@ function Register() {
 
 
   return (
-    <div style={{height: "100vh",}} className="overflow-scroll flex justify-center p-6 items-center bg-gray-100">
+    <div style={{height: "100vh",}} className="overflow-scroll flex justify-center p-6 items-center bg-white">
       
      {loading? <Loading/>: null}
       <div className="login-bx w-full md:mt-0 mt-[8rem]  max-w-md p-6 h-46"> 

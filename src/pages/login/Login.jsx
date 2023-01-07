@@ -103,7 +103,7 @@ function Login() {
   };
 
   return (
-    <div className="flex h-[100vh]  bg-gray-100 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex h-[100vh]  bg-white items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       {showMsg ? <Toast /> : null}
       <div className="login-bx w-full shadow-md p-4 max-w-md space-y-8">
         {loading ? <Loading /> : null}
