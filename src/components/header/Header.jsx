@@ -273,6 +273,7 @@ function Header() {
                 <h6
                   onClick={() => {
                     dispatch(disconnectAssitant(true));
+                    navigate('/assisLogin')
                     localStorage.removeItem("userInfos");
                   }}
                 >

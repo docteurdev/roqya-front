@@ -158,7 +158,7 @@ function Dash() {
 
       <input type="checkbox" id="new-personel" className="modal-toggle" />
       <div className="modal bg-white-100 backdrop-blur-sm">
-        <div className="md:w-4/12  modal-box w-3/4 max-w-5xl ">
+        <div className="md:w-4/12  modal-box w-full mx-2 max-w-5xl ">
           <h2 className="text-medium font-bold">Ajouter un personel</h2>
           <AddPersonelForm closePop="" />
         </div>
