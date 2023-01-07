@@ -86,7 +86,7 @@ function Register() {
     <div style={{height: "100vh",}} className="overflow-scroll flex justify-center p-6 items-center bg-gray-100">
       
      {loading? <Loading/>: null}
-      <div className="login-bx w-full   max-w-md p-6 h-46"> 
+      <div className="login-bx w-full mt-[8rem]  max-w-md p-6 h-46"> 
       <div className="w-12 h-12 mx-auto p-1 mb-2 flex items-center justify-center bg-indigo-600 rounded-full">
           {/* <img src={logo} alt="roqya-logo" className='h-full w-full rounded-full mb-1' /> */}
           <IconContext.Provider value={{className: "w-8 h-8 text-white"}}>
