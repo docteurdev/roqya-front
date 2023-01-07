@@ -1,17 +1,19 @@
 import React from 'react'
-import { LockClosedIcon } from '@heroicons/react/24/outline'
+import { LockClosedIcon } from '@heroicons/react/24/outline';
+import {TbStethoscope} from "react-icons/tb"
 import { useState } from 'react';
 import RegisterInput from './input/RegisterInput';
 // import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { disconnectAssitant, disconnectCenter, setAssitantConx } from '../redux/connexion';
-import logo from '../assets/roqya.jpg'
+import logo from '../assets/stéthoscope.png'
 import Loading from './common/Loading';
 import { alterShowMsg, setMessage } from '../redux/message';
 import { hideMsg } from './common/context';
 import { axios } from './common/axios';
 import { useNavigate } from 'react-router-dom';
 import Toast from './Toast';
+import { IconContext } from 'react-icons';
 
 
 function UserLogin({loadedDash}) {
@@ -96,13 +98,18 @@ function UserLogin({loadedDash}) {
       {loading? <Loading/>: null}
       {showMsg ? <Toast /> : null}
 
-      <form onSubmit={userLogin}  className='md:w-4/12 w-full mx-8 flex flex-col justify-center p-16  h-96 bg-[#bdc3c7] shadow-gray-50 rounded-lg ' >
-        
-        <img src={logo} alt="roqya-logo" className='h-10 w-10 rounded-full mb-1' />
+      <form onSubmit={userLogin}  className='md:w-4/12 w-full mx-8 flex flex-col justify-center p-4  h-96 bg-[#e8ebec] shadow-gray-50 rounded-lg ' >
+        <div className="w-12 h-12 mx-auto p-1 mb-2 flex items-center justify-center bg-indigo-600 rounded-full">
+          {/* <img src={logo} alt="roqya-logo" className='h-full w-full rounded-full mb-1' /> */}
+          <IconContext.Provider value={{className: "w-8 h-8 text-white"}}>
+
+          <TbStethoscope/>
+          </IconContext.Provider>
+        </div>
       <div className="text-center">
-        <LockClosedIcon className="h-8 w-8 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+        <LockClosedIcon className="h-6 w-6 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
         <p 
-        className="font-md text-indigo-600 hover:text-indigo-500 mb-5 text-left">
+        className="font-sm text-[14px] text-indigo-600 hover:text-indigo-500 mb-5 text-left">
             Le Centre est connecté, connectez-vous en tant qu'utilisateur du centre afin d'accéder au tableau de board 
         </p>
        </div>

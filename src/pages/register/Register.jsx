@@ -10,6 +10,8 @@ import { Loading, RegisterInput } from '../../components';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { axios } from '../../components/common/axios';
+import { IconContext } from 'react-icons';
+import { TbStethoscope } from 'react-icons/tb';
 
 function Register() {
 
@@ -81,11 +83,19 @@ function Register() {
 
 
   return (
-    <div style={{height: "100vh",}} className="flex justify-center p-6 items-center bg-gray-200">
+    <div style={{height: "100vh",}} className="flex justify-center p-6 items-center bg-gray-100">
       
      {loading? <Loading/>: null}
-    <div style={{width: "90%", height:"90vh"}} className="flex bg-white min-h-ful rounded-lg shadow-lg gap-2 justify-center p-6 items-center  sm:px-6 lg:px-8">
-      <div className="w-full  max-w-md h-46">        
+      <div className="login-bx w-full  max-w-md p-6 h-46"> 
+      <div className="w-12 h-12 mx-auto p-1 mb-2 flex items-center justify-center bg-indigo-600 rounded-full">
+          {/* <img src={logo} alt="roqya-logo" className='h-full w-full rounded-full mb-1' /> */}
+          <IconContext.Provider value={{className: "w-8 h-8 text-white"}}>
+
+          <TbStethoscope/>
+          </IconContext.Provider>
+      </div>
+      <h4 className="text-md text-center font-bold text-gray-900">S'inscrire</h4>
+      
         <form
         onSubmit={register}
         className="">
@@ -177,10 +187,10 @@ function Register() {
 
           <div className="text-right">
 
-            <div className="text-sm">
+            <div className="text-sm my-6">
               <a 
                onClick={() => navigate("/") }
-              className="font-medium text-indigo-600 my-6 hover:text-indigo-500 cursor-pointer">
+              className="font-medium text-indigo-600  hover:text-indigo-500 cursor-pointer">
                Se connecter à votre compte
               </a>
             </div>
@@ -189,7 +199,7 @@ function Register() {
           <div>
             <button
              type='submit'
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-[14px] font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
@@ -201,7 +211,8 @@ function Register() {
           
 
       </div>
-      <div 
+    {/* <div style={{width: "90%", height:"90vh"}} className="flex justify-center p-6 items-center  sm:px-6 lg:px-8"> */}
+      {/* <div 
       style={{backgroundImage: `url(${bgImg})`,
        backgroundPosition: 'center',
        backgroundRepeat: 'no-repeat',
@@ -213,8 +224,8 @@ function Register() {
          <h4 style={{fontWeight: '600', fontSize: '1.2rem',}} className='text-black text-right ' >وَنُنَزِّلُ مِنَ ٱلْقُرْءَانِ مَا هُوَ شِفَآءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ وَلَا يَزِيدُ ٱلظَّٰلِمِينَ إِلَّا خَسَارًا</h4>
             <h4 style={{fontWeight: '600'}} className='text-white '>17 : 82 - Nous faisons descendre du Coran, ce qui est une guérison et une miséricorde pour les croyants cependant. Cependant, cela ne fait qu'accroître la perdition des injustes.</h4>
         </div>
-      </div>
-    </div>
+      </div> */}
+    {/* </div> */}
     </div>
   )
 }

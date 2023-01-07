@@ -28,7 +28,7 @@ const personelSlice = createSlice({
     },
     extraReducers:{
       [getPersonals.pending]: () =>{
-        console.log("pending");
+        // console.log("pending getPersonals");
       },
       
       [getPersonals.fulfilled]: (state, {payload}) =>{

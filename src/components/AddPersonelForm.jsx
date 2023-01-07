@@ -1,10 +1,12 @@
 // import axios from 'axios';
-import React, { useState, memo } from 'react'
+import React, { useState,} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPersonals } from '../redux/personnel';
 import RegisterInput from './input/RegisterInput';
 import { Loading } from "./index"
 import { axios } from './common/axios';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 function AddPersonelForm() {
@@ -19,9 +21,17 @@ function AddPersonelForm() {
   const [load, setLoad] = useState(false);
 
   const rakis = useSelector(state => state.personels);
-
+  // console.log(rakis);
   const dispatcha = useDispatch();
-  const centreInfo = JSON.parse(localStorage.getItem('centreInfo'))
+
+  const navigate= useNavigate();
+
+  const centreInfo = JSON.parse(localStorage.getItem('centreInfo'));
+
+  useEffect(() =>{
+    // navigate('/assisLogin')
+    console.log(rakis.length);
+  },[])
 
   const imgFilehandler = (e) => {
     if (e.target.files.length !== 0) {
@@ -56,12 +66,20 @@ function AddPersonelForm() {
 
     axios.post("api/roqya_ci/create_employe", data)
       .then(res => {
-
+       
         if (res.data) {
            dispatcha(getPersonals(centreInfo.id));
-          setLoad(false)
-          document.getElementById('new-personel').click();
-          console.log(res.data)
+           
+           setTimeout(()=>{
+            setLoad(false)
+            
+            if(rakis.length == 0){
+              navigate('/assisLogin')
+              console.log("navigate('/assisLogin')");
+            }
+            document.getElementById('new-personel').click();
+          }, 2000)
+          // console.log(res.data)
 
         }
       })
@@ -115,12 +133,12 @@ function AddPersonelForm() {
             placeholder="mot de passe"
           />
 
-          <input
+          {/* <input
             type="file"
             className="relative block w-full my-2 appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             onChange={imgFilehandler}
             name="image"
-          />
+          /> */}
 
           <div className="bg-gray-50 px-4 py-3 text-right flex ">
             <label
@@ -150,4 +168,4 @@ function AddPersonelForm() {
   )
 }
 
-export default memo(AddPersonelForm)
+export default React.memo(AddPersonelForm)

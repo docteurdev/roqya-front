@@ -5,4 +5,5 @@ export {default as AddPersonelForm}  from "./AddPersonelForm";
 export {default as NewRdv}  from "./NewRdv";
 export {default as Loading} from "./common/Loading";
 export {default as Toast} from "./Toast";
-export {default as Header} from "./header/Header"
+export {default as Header} from "./header/Header";
+export {default as ListPersonnel} from "./ListPersonnel"

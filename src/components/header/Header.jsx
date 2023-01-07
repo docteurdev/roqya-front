@@ -1,82 +1,111 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
-    Bars3Icon,
-    BellIcon,
-    XMarkIcon,
-    UserIcon,
-    ClipboardDocumentListIcon,
-    PhoneIcon,
-    UsersIcon,
-    ChartPieIcon,
-    ChevronDownIcon, ChevronUpIcon,
-    UserPlusIcon,
-    ArrowLeftOnRectangleIcon,
-    FaceFrownIcon
-  } from "@heroicons/react/24/outline";
-  import {  BsYoutube } from "react-icons/bs";
-  import {FaFacebookSquare, FaGlobe, FaStoreAlt, FaUser} from "react-icons/fa";
-  import { IconContext } from "react-icons/lib";
-  import { Fragment } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { alterStatShon, disconnectAssitant, disconnectCenter } from "../../redux/connexion";
-import image from "../../assets/roqya.jpg";
-import '../../App.css';
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  UserIcon,
+  ClipboardDocumentListIcon,
+  PhoneIcon,
+  UsersIcon,
+  ChartPieIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  UserPlusIcon,
+  ArrowLeftOnRectangleIcon,
+  FaceFrownIcon,
+} from "@heroicons/react/24/outline";
+import { BsYoutube } from "react-icons/bs";
+import {
+  FaFacebookSquare,
+  FaGlobe,
+  FaStoreAlt,
+  FaUser,
+  FaUsers,
+} from "react-icons/fa";
+import { IconContext } from "react-icons/lib";
+import { Fragment } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  alterStatShon,
+  disconnectAssitant,
+  disconnectCenter,
+} from "../../redux/connexion";
+import image from "../../assets/neutre-user.png";
+import "../../App.css";
+import { RiCloseFill } from "react-icons/ri";
+import { getPersonals } from "../../redux/personnel";
+import { TbStethoscope } from "react-icons/tb";
 
+const user = {
+  name: "Tom Cook",
+  email: "tom@example.com",
+  imageUrl:
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+};
 
-  const user = {
-    name: "Tom Cook",
-    email: "tom@example.com",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  };
+const navigation = [
+  { name: "Dashboard", href: "#", current: true },
+  { name: "Team", href: "#", current: false },
+  { name: "Projects", href: "#", current: false },
+  { name: "Calendar", href: "#", current: false },
+  { name: "Reports", href: "#", current: false },
+];
 
-  const navigation = [
-    { name: "Dashboard", href: "#", current: true },
-    { name: "Team", href: "#", current: false },
-    { name: "Projects", href: "#", current: false },
-    { name: "Calendar", href: "#", current: false },
-    { name: "Reports", href: "#", current: false },
-  ];
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
-  
-  
-  
 function Header() {
+  const centreInfo = JSON.parse(localStorage.getItem("centreInfo"));
+  const userInfos = JSON.parse(localStorage.getItem("userInfos"));
 
-    const centreInfo = JSON.parse(localStorage.getItem('centreInfo'));
-  const userInfos = JSON.parse(localStorage.getItem('userInfos'));
-   
-    const [stat, setStat] = useState(false);
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
-  
+  const [stat, setStat] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const loaction = useLocation();
+  const personnels = useSelector((state) => state.personels);
+  // console.log(personnels);
+
+  useEffect(() => {
+    dispatch(getPersonals(loaction.state ? loaction.state.id : centreInfo.id));
+  }, []);
 
   return (
     <div>
-            <Disclosure as="nav" className="bg-gray-800">
+      <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <img
-                      className="h-8 w-8 rounded-lg"
-                      src={centreInfo.logo? centreInfo.logo: image}
-                      alt=""
-                    />
+                    {centreInfo.logo ? (
+                      <img
+                        className="h-8 w-8 rounded-lg"
+                        src={centreInfo.logo}
+                        alt=""
+                      />
+                    ) : (
+                      <div className="w-10 h-10 mx-auto p-2 mb-2 flex items-center justify-center bg-indigo-600 rounded-full">
+                        {/* <img src={logo} alt="roqya-logo" className='h-full w-full rounded-full mb-1' /> */}
+                        <IconContext.Provider
+                          value={{ className: "w-8 h-8 text-white" }}
+                        >
+                          <TbStethoscope />
+                        </IconContext.Provider>
+                      </div>
+                    )}
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-center space-x-4">
                       <a className="flex bg-gray-900 text-white text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
-                        {/* <UsersIcon className="h-6 w-6" /> */}
-                        <IconContext.Provider value={{className:"h-6 w-6 mr-3"}}>
-                        <FaStoreAlt/>
+                        <IconContext.Provider
+                          value={{ className: "h-6 w-6 mr-3" }}
+                        >
+                          <FaStoreAlt />
                         </IconContext.Provider>
                         <span class="header-link"> Boutique </span>
                       </a>
@@ -88,43 +117,61 @@ function Header() {
                         <span class="header-link"> Statistiques </span>
                       </a>
                       <a
+                        onClick={() =>
+                          document.getElementById("my-modal").click()
+                        }
                         className=" flex  bg-gray-900 text-white text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                       >
                         <UserIcon className="h-6 w-6 mr-3" />
-                        <label className='show-patient header-link' htmlFor="my-modal" >Nouveau Patient</label>
-
+                        Nouveau Patient
                       </a>
                       <a
+                        onClick={() =>
+                          document.getElementById("new-personel").click()
+                        }
                         className=" flex bg-gray-900 text-white text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                        //  href='blank'
                       >
                         <UserPlusIcon className="h-6 w-6 mr-3" />
-                        <label className='show-patient header-link' htmlFor="new-personel" >Nouveau Personel</label>
-
+                        Nouveau Personel
                       </a>
                       <a
-                       href={centreInfo.youtube}
+                        href={centreInfo.youtube}
                         className=" flex bg-gray-900 w-15 h-15 text-white text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-full text-sm font-medium cursor-pointer"
                       >
-                        <IconContext.Provider value={{ color:'#FF0000', className:"h-4 w-4"}}>
-                          <BsYoutube/>
+                        <IconContext.Provider
+                          value={{ color: "#FF0000", className: "h-4 w-4" }}
+                        >
+                          <BsYoutube />
                         </IconContext.Provider>
                       </a>
                       <a
-                       href={centreInfo.facebook}
+                        href={centreInfo.facebook}
                         className=" flex bg-gray-900 w-15 h-15 text-white text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-full text-sm font-medium cursor-pointer"
                       >
-                        <IconContext.Provider value={{ color:'#4267B2', className:"h-4 w-4"}}>
-
-                        <FaFacebookSquare />
+                        <IconContext.Provider
+                          value={{ color: "#4267B2", className: "h-4 w-4" }}
+                        >
+                          <FaFacebookSquare />
                         </IconContext.Provider>
                       </a>
                       <a
-                       href={centreInfo.siteWeb}
+                        href={centreInfo.siteWeb}
                         className=" flex bg-gray-900 w-15 h-15 text-white text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-full text-sm font-medium cursor-pointer"
                       >
-                        <IconContext.Provider value={{className:"h-4 w-4"}}>
-                        <FaGlobe/>
+                        <IconContext.Provider value={{ className: "h-4 w-4" }}>
+                          <FaGlobe />
+                        </IconContext.Provider>
+                      </a>
 
+                      <a
+                        onClick={(e) => {
+                          document.getElementById("listpersonel").click();
+                        }}
+                        className=" flex bg-gray-900 w-15 h-15 text-white text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-full text-sm font-medium cursor-pointer"
+                      >
+                        <IconContext.Provider value={{ className: "h-4 w-4" }}>
+                          <FaUsers />
                         </IconContext.Provider>
                       </a>
                     </div>
@@ -150,8 +197,9 @@ function Header() {
                             src={user.imageUrl}
                             alt=""
                           /> */}
-                          <IconContext.Provider value={{ color:'#fff', className:"h-4 w-4"}}>
-
+                          <IconContext.Provider
+                            value={{ color: "#fff", className: "h-4 w-4" }}
+                          >
                             <FaUser />
                           </IconContext.Provider>
                         </Menu.Button>
@@ -166,17 +214,24 @@ function Header() {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items className="absolute text-left right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li className="text-sm font-semibold"><a>Modifier le centre</a></li>
+                          <ul
+                            tabIndex={0}
+                            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                          >
+                            <li className="text-sm font-semibold">
+                              <a>Modifier le centre</a>
+                            </li>
                             <li
                               onClick={() => {
-                                localStorage.removeItem('centreInfo')
-                                localStorage.removeItem('userInfos');
-                                 dispatch(disconnectCenter(true))
-                                navigate('/')
-
+                                localStorage.removeItem("centreInfo");
+                                localStorage.removeItem("userInfos");
+                                dispatch(disconnectCenter(true));
+                                navigate("/");
                               }}
-                              className="text-sm font-semibold"><a>Déconnecter le centre?</a></li>
+                              className="text-sm font-semibold"
+                            >
+                              <a>Déconnecter le centre?</a>
+                            </li>
                           </ul>
                         </Menu.Items>
                       </Transition>
@@ -199,34 +254,39 @@ function Header() {
 
             <Disclosure.Panel className="md:hidden">
               <div className="space-y-1  px-2 pt-2 pb-3 sm:px-3">
-                
-                  <h6
-                    
+                <h6>
+                  <label
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium show-patient header-link"
+                    htmlFor="new-personel"
                   >
-                    <label className='text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium show-patient header-link' htmlFor="new-personel" >Nouveau Personel</label>
-                  </h6>
-                  <h6
-                    
+                    Nouveau Personel
+                  </label>
+                </h6>
+                <h6>
+                  <label
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium show-patient header-link"
+                    htmlFor="my-modal"
                   >
-                    <label className='text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium show-patient header-link' htmlFor="my-modal" >Nouveau Patient</label>
-                  </h6>
-                  <h6
-                   onClick={() =>{
-                    dispatch(disconnectAssitant(true))
-                    localStorage.removeItem('userInfos')
-                }}
-                    >
-                      <label className='text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium '  >Se déconnecter</label>
-                    </h6>
-
-               
+                    Nouveau Patient
+                  </label>
+                </h6>
+                <h6
+                  onClick={() => {
+                    dispatch(disconnectAssitant(true));
+                    localStorage.removeItem("userInfos");
+                  }}
+                >
+                  <label className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium ">
+                    Se déconnecter
+                  </label>
+                </h6>
               </div>
               <div className="border-t border-gray-700 pt-4 pb-3">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                    //   src={user.imageUrl}
+                      //   src={user.imageUrl}
                       alt=""
                     />
                   </div>
@@ -247,7 +307,6 @@ function Header() {
                   </button>
                 </div>
                 <div className="mt-3 space-y-1 px-2">
-
                   {/* <Disclosure.Button
                     key={item.name}
                     as="a"
@@ -256,16 +315,14 @@ function Header() {
                   >
                     {item.name}
                   </Disclosure.Button> */}
-
                 </div>
               </div>
             </Disclosure.Panel>
           </>
         )}
       </Disclosure>
-
     </div>
-  )
+  );
 }
 
-export default Header
+export default Header;
