@@ -49,7 +49,7 @@ function AddPersonelForm() {
     let data = {
       idCentre: centreInfo.id,
       idTypeEmploye: typePersonel,
-      image: formData,
+      image: "",
       employe: {
         userName: username,
         password: password,
